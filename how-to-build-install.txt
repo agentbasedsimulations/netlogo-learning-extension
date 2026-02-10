@@ -5,7 +5,8 @@ Q-learning NetLogo Extension
 ****************************************************
 *** HOW TO OPEN THE PROJECT USING THE ECLIPSE IDE ***
 ****************************************************
-Be sure you have the Eclipse Buildship (Gradle) plugin installed.
+Be sure you have the Eclipse Buildship (Gradle) plugin installed. 
+Install it using the following repository: https://download.eclipse.org/buildship/updates/latest/
 
 1. Clone this repository from Github.
 2. On Eclipse, open the following projects:
