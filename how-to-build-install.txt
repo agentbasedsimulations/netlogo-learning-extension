@@ -6,41 +6,53 @@ Q-learning NetLogo Extension
 *** HOW TO OPEN THE PROJECT USING THE ECLIPSE IDE ***
 ****************************************************
 Be sure you have the Eclipse Buildship (Gradle) plugin installed. 
-Install it using the following repository: https://download.eclipse.org/buildship/updates/latest/
+Install it using the following update site: https://download.eclipse.org/buildship/updates/latest/ (select all available buildship options)
 
 1. Clone this repository from Github.
-2. On Eclipse, open the following projects:
-	- qlearning-netlogo-extension (gradle rootproject)
+2. On Eclipse, open the projects
+File > Import > General > Existing Projects into Workspace
+In the Import wizard, do the following:
+	In the root directory, select the directory with the cloned repositor
+	In the 'options' section, check the 'search for nested projects' checkbox.
+	The following two projects should appear in the 'projects' section; select both:
 	- lib (source code project)
+	- qlearning-netlogo-extension (gradle rootproject)
+	Click finish
+3. Done. The 2 projecs should be open in the Package Explorer.
+4. Show the 'Grade Tasks' view
+	Window > Show View > Other > Gradle > Gradle Tasks
 
-The source code is in the 'lib' project.
+If there are compilarion errors in these projects, do the following:
+	In the 'Gradle Tasks' view, perform the following gradle tasks:
+		qlearning-netlogo-extension > lib > build > build
+
+
+****************************************************
+***	 HOW TO BUILD THE EXTENSION   		 ***
+****************************************************
+On the Gradle tasks view, run the 'jar' gradle task in the 'lib' project to create the 'learningextension.jar' file in the 'build/libs/' directory. 
+	Gradle tasks > qlearning-netlogo-extension > lib > build > jar
 
 
 
 
 ****************************************************
-***		 HOW TO BUILD THE EXTENSION   			 ***
-****************************************************
-Run the 'jar' gradle task in the 'lib' project to create the 'qlearningextension.jar' file in the 'build/libs/' directory. 
-
-
-
-
-****************************************************
-***		 HOW TO INSTALL THE EXTENSION ON NETLOGO ***
+***	 HOW TO INSTALL THE EXTENSION ON NETLOGO ***
 ****************************************************
 1. Open the gradle directory in your user profile. Usually it is located at:
   - Linux: ~/.grade 
   - Windows: c:\users\<you_user>\gradle
   
-2. Create a new file named 'gradle.properties'
+2. Create a new file named 'gradle.properties'. You can use the 'gradle.properties.template' file from the 'qlearning-netlogo-extension' as a template. Copy it to the gradle directory in your user profile and rename them to 'gradle.properties'
 
 3. Define a NETLOGO_USER_DIR property in the gradle.properties file as follow:
 
 NETLOGO_USER_DIR=<netlogo_profile_dir>
 
 Replace <netlogo_profile_dir> with the directory of your NetLogo profile. Usually it is:
-	- Linux: ~/.netlogo/<netlogo_version_number>
- 	- Windows: C:\Users\<your_user>\AppData\Roaming\NetLogo\<netlogo_version_number>
+- Linux: ~/.netlogo/<netlogo_version_number>
+- Windows: C:\Users\<your_user>\AppData\Roaming\NetLogo\<netlogo_version_number>
+	NOTE: on Windows, replace every single '\' with double '\\' 
+	
 
 4. Run the 'install-on-netlogo' gradle task. This task automatically copy the extension jar to the NetLogo extensions directory.
