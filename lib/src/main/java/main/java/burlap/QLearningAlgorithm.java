@@ -16,6 +16,7 @@ import burlap.mdp.singleagent.SADomain;
 import burlap.mdp.singleagent.environment.SimulatedEnvironment;
 import burlap.mdp.singleagent.model.FactoredModel;
 import burlap.mdp.singleagent.model.RewardFunction;
+import burlap.statehashing.HashableStateFactory;
 import burlap.statehashing.simple.SimpleHashableStateFactory;
 import main.java.burlap.adapters.QLearningAdapter;
 import main.java.model.AgentLearning;
@@ -88,6 +89,15 @@ public class QLearningAlgorithm implements DomainGenerator {
         }
     }
     
+    // FUNCAO ADICIONADA, PARA SE REMOVER DEPOIS 
+    // Autor: Mateus Rissardi, Data: 05/05/2026
+    public String getState() {
+    	AgentLearning agent =  Session.getInstance().getAgent(context.getAgent());
+//    	StateModel model = agentLearning.qValues(agent.q);
+    	HashableStateFactory texto = agentLearning.getHashingFactory();
+    	
+		return texto.toString();
+    }
     
     
     public void go(Argument[] args, Context context) throws ExtensionException {

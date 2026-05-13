@@ -25,14 +25,17 @@ repositories {
 		// netlogo maven repository
 		url 'https://dl.cloudsmith.io/public/netlogo/netlogo/maven/'
 	}
+	maven { // jogamp repository
+		url 'https://jogamp.org/deployment/maven/'
+	}
     // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
-
+ 
 dependencies {
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
-
+ 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
     
@@ -43,8 +46,11 @@ dependencies {
 	implementation group: 'org.nlogo', name: 'netlogo', version: '6.1.1'
     
 }
-
-
+ 
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+}
+ 
 jar {
     manifest {
     	attributes "NetLogo-Extension-API-Version": "6.1.1"

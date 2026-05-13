@@ -4,6 +4,9 @@
  */
 package main.java.burlap;
 
+import java.util.List;
+import java.util.Map;
+
 import org.nlogo.api.AgentException;
 import org.nlogo.api.AnonymousCommand;
 import org.nlogo.api.Argument;
@@ -11,6 +14,7 @@ import org.nlogo.api.Context;
 import org.nlogo.api.ExtensionException;
 
 import burlap.behavior.policy.EpsilonGreedy;
+import burlap.behavior.valuefunction.QValue;
 import burlap.mdp.auxiliary.DomainGenerator;
 import burlap.mdp.core.Domain;
 import burlap.mdp.core.TerminalFunction;
@@ -20,6 +24,7 @@ import burlap.mdp.singleagent.SADomain;
 import burlap.mdp.singleagent.environment.SimulatedEnvironment;
 import burlap.mdp.singleagent.model.FactoredModel;
 import burlap.mdp.singleagent.model.RewardFunction;
+import burlap.statehashing.HashableStateFactory;
 import burlap.statehashing.simple.SimpleHashableStateFactory;
 import main.java.burlap.adapters.SarsaLamAdapter;
 import main.java.model.AgentLearning;
@@ -89,6 +94,12 @@ public class SarsaAlgorithm implements DomainGenerator {
             epsilon = new EpsilonGreedy(agentLearning, agent.actionSelection.roulette);
             agentLearning.setLearningPolicy(epsilon);
         }
+    }
+    
+ // FUNCAO ADICIONADA, PARA SE REMOVER DEPOIS 
+    // Autor: Mateus Rissardi, Data: 11/05/2026
+    public Map<State, List<QValue>> getState() {
+		return agentLearning.getQTable();
     }
     
     public void go(Argument[] args, Context context) throws ExtensionException {

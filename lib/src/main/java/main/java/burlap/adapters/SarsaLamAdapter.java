@@ -1,6 +1,8 @@
 package main.java.burlap.adapters;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import burlap.behavior.policy.Policy;
 import burlap.behavior.singleagent.learning.tdmethods.SarsaLam;
@@ -32,6 +34,25 @@ public class SarsaLamAdapter extends SarsaLam {
 	public SarsaLamAdapter(SADomain domain, double gamma, HashableStateFactory hashingFactory, QFunction qInit,
 			double learningRate, Policy learningPolicy, int maxEpisodeSize, double lambda) {
 		super(domain, gamma, hashingFactory, qInit, learningRate, learningPolicy, maxEpisodeSize, lambda);
+	}
+	
+	// METODO ADICIONADO, PARA REVISÃO DEPOIS 
+	// Autor: Mateus Rissardi, Data: 11/05/2026
+	public Map<State, List<QValue>> getQTable() {
+		Map<State, List<QValue>> qtable = new HashMap<State, List<QValue>>();
+		StringBuilder sb = new StringBuilder("Sarsa-Lambda Details").append(System.lineSeparator());
+		for (HashableState hs : super.qFunction.keySet()) {
+			State s = hs.s();
+			sb.append("state: ").append(s).append("; actions values: ");
+			
+			List<QValue> values = super.qFunction.get(hs).qEntry; // QValue is a tuple: state s, action a, qValue q
+			for (QValue qv : values) {
+				sb.append(qv.a).append("=").append(qv.q).append("; ");
+			}
+			sb.append(System.lineSeparator());
+			qtable.put(s, values);
+		}
+		return qtable;
 	}
 
 	public String getLearningDetails() {

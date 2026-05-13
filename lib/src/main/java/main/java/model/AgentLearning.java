@@ -15,6 +15,7 @@ import org.nlogo.api.Context;
 import org.nlogo.api.ExtensionException;
 
 import main.java.burlap.IsEndEpisode;
+import main.java.burlap.adapters.QLearningAdapter;
 
 /**
  * Agent Learning Class
@@ -34,6 +35,9 @@ public class AgentLearning {
     public Double discountFactor = -1.00;
     public Double lambda         = -1.00;
     public int episode           = 0; 
+    // ADICIONADO, TALVEZ SEJA REMOVIDO FUTURAMENTE
+    // Autor: Mateus Rissardi, Data: 07/05/2026
+    public QLearningAdapter qAdapter	 = null;
    
     
     public org.nlogo.api.Agent agent = null;

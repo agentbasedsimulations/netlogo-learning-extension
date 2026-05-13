@@ -20,6 +20,7 @@ import main.java.primitives.setup.RewardCommand;
 import main.java.primitives.setup.SetupCommand;
 import main.java.primitives.setup.StateDefinitionCommand;
 import main.java.primitives.setup.StateDefinitionExtraCommand;
+import main.java.tests.FirstTezts;
 
 /**
  * Extension Commands Class
@@ -50,5 +51,8 @@ public class ExtensionCommands extends DefaultClassManager {
         primitiveManager.addPrimitive("get-episode", new GetEpisodeCommand());
         //primitiveManager.addPrimitive("get-qtable", new GetQTableCommand()); // TODO
         primitiveManager.addPrimitive("get-learning-details", new GetQTableCommand());
+        
+        // COMANDOS TESTS
+        primitiveManager.addPrimitive("tests", new FirstTezts());
     }
 }
