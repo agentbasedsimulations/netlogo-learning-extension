@@ -40,16 +40,10 @@ public class SarsaLamAdapter extends SarsaLam {
 	// Autor: Mateus Rissardi, Data: 11/05/2026
 	public Map<State, List<QValue>> getQTable() {
 		Map<State, List<QValue>> qtable = new HashMap<State, List<QValue>>();
-		StringBuilder sb = new StringBuilder("Sarsa-Lambda Details").append(System.lineSeparator());
 		for (HashableState hs : super.qFunction.keySet()) {
 			State s = hs.s();
-			sb.append("state: ").append(s).append("; actions values: ");
 			
 			List<QValue> values = super.qFunction.get(hs).qEntry; // QValue is a tuple: state s, action a, qValue q
-			for (QValue qv : values) {
-				sb.append(qv.a).append("=").append(qv.q).append("; ");
-			}
-			sb.append(System.lineSeparator());
 			qtable.put(s, values);
 		}
 		return qtable;

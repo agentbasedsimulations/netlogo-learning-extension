@@ -96,10 +96,16 @@ public class SarsaAlgorithm implements DomainGenerator {
         }
     }
     
- // FUNCAO ADICIONADA, PARA SE REMOVER DEPOIS 
+    // FUNCAO ADICIONADA, PARA ANALISE FUTURA 
     // Autor: Mateus Rissardi, Data: 11/05/2026
     public Map<State, List<QValue>> getState() {
 		return agentLearning.getQTable();
+    }
+    
+    // FUNÇÃO ADICIONADA, PARA ANALISE FUTURA
+    // Autor: Mateus Rissardi, Data: 13/05/2026
+    public SarsaLamAdapter getSarsaAdapter() {
+		return agentLearning;
     }
     
     public void go(Argument[] args, Context context) throws ExtensionException {
@@ -116,6 +122,8 @@ public class SarsaAlgorithm implements DomainGenerator {
         agent.resetEpisode(context,args);
         env.resetEnvironment(); 
     }
+    
+    
     
     @Override
     public Domain generateDomain() {
