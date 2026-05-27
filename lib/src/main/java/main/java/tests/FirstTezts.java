@@ -40,6 +40,8 @@ import main.java.model.Session;
 
 public class FirstTezts implements Reporter{
 
+	Map<State, List<QValue>> qtable;
+	
 	public Object report(Argument args[], Context context) throws ExtensionException {
 		// preparando variaveis
 		String src = args[0].getString();
@@ -52,7 +54,7 @@ public class FirstTezts implements Reporter{
         TerminalFunction isEndEpisode = new IsEndEpisode(args, context);
 		
 		// verificando a QTable
-		Map<State, List<QValue>> qtable = learning.getState();
+		qtable = learning.getState();
 		if (!qtable.isEmpty()) {
 		    s = qtable.keySet().iterator().next(); 
 		} else {
@@ -74,12 +76,11 @@ public class FirstTezts implements Reporter{
 	
 	public void simpleValueFunctionVis(ValueFunction valueFunction, Policy p, SADomain domain, State s, AgentLearning agent){
 
-        List<State> allStates = StateReachability.getReachableStates(s,
-                domain, new SimpleHashableStateFactory());
+        List<State> allStates = new java.util.ArrayList<State>(qtable.keySet());
         
         StateValuePainter2D svp = new StateValuePainter2D();
         svp.setXYKeys("XCOR", "YCOR", 
-                new VariableDomain(0, 11), new VariableDomain(0, 11), 
+                new VariableDomain(0, 4), new VariableDomain(0, 3), 
                 1, 1);
 
 	  // ==========================================
@@ -87,8 +88,8 @@ public class FirstTezts implements Reporter{
 	  // ==========================================
 	  // Opcional, mas essencial para ver o Value Iteration funcionando. Ele desenha setas.
 	  PolicyGlyphPainter2D spp = new PolicyGlyphPainter2D();
-	  spp.setXYKeys("XCOR", "XCOR", 
-	                new VariableDomain(0, 11), new VariableDomain(0, 11), 
+	  spp.setXYKeys("XCOR", "YCOR", 
+	                new VariableDomain(0, 4), new VariableDomain(0, 3), 
 	                1, 1);
 	
 	  // ATENÇÃO 2: Você precisa mapear o nome das ações geradas pela sua extensão
@@ -117,7 +118,7 @@ public class FirstTezts implements Reporter{
         try {
             // Pausa a execução do programa por 3000 milissegundos (3 segundos)
             // Isso te dá tempo de ver o agente parado no bloco verde (4,4)
-            Thread.sleep(3000); 
+            Thread.sleep(10000); 
         } catch (InterruptedException e) {
             System.out.println("A contagem de tempo foi interrompida.");
             e.printStackTrace();

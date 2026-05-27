@@ -22,6 +22,7 @@ import burlap.statehashing.HashableState;
 import main.java.burlap.adapters.QLearningAdapter;
 import main.java.model.AgentLearning;
 import main.java.model.Session;
+import main.java.tests.ValueIterationTests;
 
 /**
  * Agent State Model Class
@@ -35,6 +36,9 @@ public class AgentStateModel implements FullStateModel {
     private QLearning  learning;
     private SarsaLam   sarsa;
     private CriticImplementation critic;
+    // VARIÁVEL ADICIONADA, PARA FUTURA REVISÃO
+    // Autor: Mateus Rissardi, Data: 25/03/2026
+    private ValueIterationTests transitionModel = null;
     
     public AgentStateModel(Argument[] args, Context context) {
         this.args = args;
@@ -44,6 +48,12 @@ public class AgentStateModel implements FullStateModel {
     @Override
     public List<StateTransitionProb> stateTransitions(State s, Action a) {
         return new ArrayList<StateTransitionProb>();
+    }
+    
+    // METODO ADICIONADO, PARA FUTURA REVISÃO
+    // Autor: Mateus Rissardi, Data: 25/03/2026
+    public void setTransitionModel(ValueIterationTests transitionModel) {
+        this.transitionModel = transitionModel;
     }
 
     @Override
@@ -79,11 +89,6 @@ public class AgentStateModel implements FullStateModel {
                 System.out.println("action: " + qvalue.a.actionName() + " , value: " + qvalue.q);
         	}
         }
-            
-            
-            
-        
-        
         
         if(agent.algorithm.equals("actor-critic")) {
            
@@ -96,19 +101,15 @@ public class AgentStateModel implements FullStateModel {
             }
             System.out.println("-------------------------------");
         }
-           
-            
-            	
-        	
-        
-    	
-      
-
-        
+        AgentState sPrime = null;
         try {
-            state = new AgentState(context);
+            sPrime = new AgentState(context);
         } catch (AgentException ex) {
             Logger.getLogger(AgentStateModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (transitionModel != null) {
+            transitionModel.recordTransition(state, a, sPrime);
         }
        
         return state;

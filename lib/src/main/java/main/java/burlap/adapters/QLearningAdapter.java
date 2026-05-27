@@ -1,6 +1,8 @@
 package main.java.burlap.adapters;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import burlap.behavior.policy.Policy;
 import burlap.behavior.singleagent.learning.tdmethods.QLearning;
@@ -52,5 +54,18 @@ public class QLearningAdapter extends QLearning {
 			sb.append(System.lineSeparator());
 		}
 		return sb.toString();
+	}
+
+	// METODO ADICIONADO, PARA REVISÃO DEPOIS 
+	// Autor: Mateus Rissardi, Data: 11/05/2026
+	public Map<State, List<QValue>> getQTable() {
+		Map<State, List<QValue>> qtable = new HashMap<State, List<QValue>>();
+		for (HashableState hs : super.qFunction.keySet()) {
+			State s = hs.s();
+			
+			List<QValue> values = super.qFunction.get(hs).qEntry; // QValue is a tuple: state s, action a, qValue q
+			qtable.put(s, values);
+		}
+		return qtable;
 	}
 }

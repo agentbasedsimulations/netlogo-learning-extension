@@ -21,6 +21,7 @@ import main.java.primitives.setup.SetupCommand;
 import main.java.primitives.setup.StateDefinitionCommand;
 import main.java.primitives.setup.StateDefinitionExtraCommand;
 import main.java.tests.FirstTezts;
+import main.java.tests.VerifyLearningCommand;
 
 /**
  * Extension Commands Class
@@ -54,5 +55,6 @@ public class ExtensionCommands extends DefaultClassManager {
         
         // COMANDOS TESTS
         primitiveManager.addPrimitive("tests", new FirstTezts());
+        primitiveManager.addPrimitive("verify-learning", new VerifyLearningCommand());
     }
 }

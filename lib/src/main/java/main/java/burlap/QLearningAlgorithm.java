@@ -1,5 +1,8 @@
 package main.java.burlap;
 
+import java.util.List;
+import java.util.Map;
+
 import org.nlogo.api.AgentException;
 import org.nlogo.api.AnonymousCommand;
 import org.nlogo.api.Argument;
@@ -7,6 +10,7 @@ import org.nlogo.api.Context;
 import org.nlogo.api.ExtensionException;
 
 import burlap.behavior.policy.EpsilonGreedy;
+import burlap.behavior.valuefunction.QValue;
 import burlap.mdp.auxiliary.DomainGenerator;
 import burlap.mdp.core.Domain;
 import burlap.mdp.core.TerminalFunction;
@@ -19,6 +23,7 @@ import burlap.mdp.singleagent.model.RewardFunction;
 import burlap.statehashing.HashableStateFactory;
 import burlap.statehashing.simple.SimpleHashableStateFactory;
 import main.java.burlap.adapters.QLearningAdapter;
+import main.java.burlap.adapters.SarsaLamAdapter;
 import main.java.model.AgentLearning;
 import main.java.model.Session;
 import main.java.primitives.go.DecayEpsilonCommand;
@@ -89,14 +94,16 @@ public class QLearningAlgorithm implements DomainGenerator {
         }
     }
     
-    // FUNCAO ADICIONADA, PARA SE REMOVER DEPOIS 
-    // Autor: Mateus Rissardi, Data: 05/05/2026
-    public String getState() {
-    	AgentLearning agent =  Session.getInstance().getAgent(context.getAgent());
-//    	StateModel model = agentLearning.qValues(agent.q);
-    	HashableStateFactory texto = agentLearning.getHashingFactory();
-    	
-		return texto.toString();
+ // FUNCAO ADICIONADA, PARA ANALISE FUTURA 
+    // Autor: Mateus Rissardi, Data: 11/05/2026
+    public Map<State, List<QValue>> getState() {
+		return agentLearning.getQTable();
+    }
+    
+    // FUNÇÃO ADICIONADA, PARA ANALISE FUTURA
+    // Autor: Mateus Rissardi, Data: 13/05/2026
+    public QLearningAdapter getQLearningAdapter() {
+		return agentLearning;
     }
     
     
