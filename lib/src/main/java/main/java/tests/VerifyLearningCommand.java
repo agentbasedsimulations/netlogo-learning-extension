@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import org.nlogo.api.Argument;
 import org.nlogo.api.Context;
@@ -43,7 +45,21 @@ public class VerifyLearningCommand implements Reporter{
 		Map<State, List<QValue>> qtable = learning.getState();
 		Map<List<Integer>, String> map 	= readFile(src);
 		
-		sb.append("\nCaminho: " + map.keySet());
+		Set<State> estado = qtable.keySet();
+		Set<List<Integer>> chaves = map.keySet();
+		sb.append("\nCaminho: " + src + "\n" + map.keySet());
+		
+		Iterator<State> itr = estado.iterator();
+		Iterator<List<Integer>> itr_chave = chaves.iterator();
+		while(itr.hasNext()) {
+			State elemento = itr.next();
+			List<Integer> elemento_chave = itr_chave.next();
+			double num = (double) elemento.get("XCOR");
+			sb.append("\nX da Q-Table: " + num + " X do csv: " + elemento_chave.get(0));
+			if(Double.compare(num, elemento_chave.get(0)) == 0 ) {
+				sb.append("\nPossui o X igual");
+			}
+		}
 		
 		return sb.toString();
 	}
