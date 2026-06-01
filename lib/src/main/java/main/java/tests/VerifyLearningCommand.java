@@ -45,8 +45,8 @@ public class VerifyLearningCommand implements Reporter{
 		Map<State, List<QValue>> qtable = learning.getState();
 		Map<List<Integer>, String> map 	= readFile(src);
 		
-		sb.append("\nCaminho do arquivo: " + src + "\n" + map.keySet() + "\n");
-		sb.append("\nTabela Local: " + src + "\n" + qtable.keySet() + "\n");
+		sb.append("\nCaminho do arquivo (Versão Nova): " + src + "\n");
+		sb.append("\nTabela Local: " + map.keySet() + "\n" + qtable.keySet() + "\n");
 		sb.append(verifyStates(qtable, map));
 		
 		return sb.toString();

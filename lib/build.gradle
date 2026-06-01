@@ -53,7 +53,7 @@ tasks.withType(JavaCompile).configureEach {
  
 jar {
     manifest {
-    	attributes "NetLogo-Extension-API-Version": "6.1.1"
+    	attributes "NetLogo-Extension-API-Version": "6.5"
         attributes "Extension-Name": EXTENSION_NAME
         attributes "Class-Manager": "main.java.ExtensionCommands"
     }
