@@ -45,23 +45,39 @@ public class VerifyLearningCommand implements Reporter{
 		Map<State, List<QValue>> qtable = learning.getState();
 		Map<List<Integer>, String> map 	= readFile(src);
 		
+		sb.append("\nCaminho do arquivo: " + src + "\n" + map.keySet() + "\n");
+		sb.append("\nTabela Local: " + src + "\n" + qtable.keySet() + "\n");
+		sb.append(verifyStates(qtable, map));
+		
+		return sb.toString();
+	}
+	
+	private StringBuilder verifyStates(Map<State, List<QValue>> qtable, Map<List<Integer>, String> map) {
 		Set<State> estado = qtable.keySet();
 		Set<List<Integer>> chaves = map.keySet();
-		sb.append("\nCaminho: " + src + "\n" + map.keySet());
+		
+		StringBuilder sb = new StringBuilder();
 		
 		Iterator<State> itr = estado.iterator();
 		Iterator<List<Integer>> itr_chave = chaves.iterator();
+		
 		while(itr.hasNext()) {
 			State elemento = itr.next();
-			List<Integer> elemento_chave = itr_chave.next();
-			double num = (double) elemento.get("XCOR");
-			sb.append("\nX da Q-Table: " + num + " X do csv: " + elemento_chave.get(0));
-			if(Double.compare(num, elemento_chave.get(0)) == 0 ) {
-				sb.append("\nPossui o X igual");
+			while(itr_chave.hasNext()) {
+				List<Integer> elemento_chave = itr_chave.next();
+				double cord_x = (double) elemento.get("XCOR");
+				double cord_y = (double) elemento.get("YCOR");;
+				if(Double.compare(cord_x, elemento_chave.get(0)) == 0 && Double.compare(cord_y, elemento_chave.get(1)) == 0) {
+					sb.append("Possui As coordenadas identicas\nValor do csv: " + elemento_chave + "\nValor da QTable: " + cord_x + " " + cord_y + "\n");
+					sb.append("Valor da qtable" + qtable.get(elemento).get(0).q + "\n");
+				}
+//				else {
+//					sb.append("Não achei :C" + "\nValor do csv: " + elemento_chave + "\nValor da QTable: " + cord_x + " " + cord_y + "\n");
+//				}
 			}
+			itr_chave = chaves.iterator();
 		}
-		
-		return sb.toString();
+		return sb;
 	}
 	
 	private Map<List<Integer>, String> readFile(String src){
