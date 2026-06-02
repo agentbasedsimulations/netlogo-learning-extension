@@ -38,9 +38,9 @@ public class VerifyLearningCommand implements Reporter{
 	@Override
 	public Object report(Argument[] args, Context context) throws ExtensionException {
 		// valores assistentes
-		String src 					= args[0].getString();
-		StringBuilder sb 			= new StringBuilder();
-		QLearningAlgorithm learning = QLearningAlgorithm.getInstance(args, context);
+		String src 						= args[0].getString();
+		StringBuilder sb 				= new StringBuilder();
+		QLearningAlgorithm learning 	= QLearningAlgorithm.getInstance(args, context);
 		// tabelas q
 		Map<State, List<QValue>> qtable = learning.getState();
 		Map<List<Integer>, String> map 	= readFile(src);
@@ -64,16 +64,23 @@ public class VerifyLearningCommand implements Reporter{
 		while(itr.hasNext()) {
 			State elemento = itr.next();
 			while(itr_chave.hasNext()) {
-				List<Integer> elemento_chave = itr_chave.next();
-				double cord_x = (double) elemento.get("XCOR");
-				double cord_y = (double) elemento.get("YCOR");;
+				List<Integer> elemento_chave 	= itr_chave.next();
+				double cord_x 					= (double) elemento.get("XCOR");
+				double cord_y 					= (double) elemento.get("YCOR");;
 				if(Double.compare(cord_x, elemento_chave.get(0)) == 0 && Double.compare(cord_y, elemento_chave.get(1)) == 0) {
-					sb.append("Possui As coordenadas identicas\nValor do csv: " + elemento_chave + "\nValor da QTable: " + cord_x + " " + cord_y + "\n");
-					sb.append("Valor da qtable" + qtable.get(elemento).get(0).q + "\n");
+//					sb.append("Possui As coordenadas identicas\nValor do csv: " + elemento_chave + "\nValor da QTable: " + cord_x + " " + cord_y + "\n");
+					double maxValue = Integer.MIN_VALUE;
+					QValue maxQValue = new QValue();
+					for (QValue qvalue : qtable.get(elemento)) {
+						if(qvalue.q > maxValue) {
+							maxValue = qvalue.q;
+							maxQValue = qvalue;
+						}
+					}
+					sb.append("\n\n\n");
+					sb.append("A ação melhor a ser tomada no estado "+ cord_x +" " + cord_y +" é: " + maxQValue.a +"\nValor Q: " + maxQValue.q + "\n");
+					
 				}
-//				else {
-//					sb.append("Não achei :C" + "\nValor do csv: " + elemento_chave + "\nValor da QTable: " + cord_x + " " + cord_y + "\n");
-//				}
 			}
 			itr_chave = chaves.iterator();
 		}
