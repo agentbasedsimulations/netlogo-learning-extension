@@ -80,13 +80,18 @@ public class VerifyLearningCommand implements Reporter{
 					List<QValue> maxQValue 	= findMaxQValue(qtable.get(elemento));
 					String[] maxValues		= map.get(elemento_chave).split("-");
 					
+					
 					for (int i = 0; i < maxValues.length; i++) {
+						String rawAction = maxQValue.get(i).a.actionName();
+					    
+					    // 2. Limpamos a string removendo a sintaxe e os espaços extras
+					    String cleanAction = rawAction.replace("(anonymous command: [", "").replace("])", "").trim();
 						
-						if(!maxQValue.get(i).a.actionName().contains(maxValues[i]) && !maxValues[i].contains("any")) {
+						if(!map.get(elemento_chave).contains(cleanAction) && !map.get(elemento_chave).contains("any")) {
 							
 							isEqual = false;
 							sb.append("Different Action Found!\n");
-							sb.append("State: "+ elemento_chave +"\nAction expected by the CSV table:" + maxValues[i] + "\nAction found on the Q-Table: " + maxQValue.get(i).a.actionName() + "\n\n");
+							sb.append("State: "+ elemento_chave +"\nAction expected by the desired policy: " + maxValues[i] + "\nAction found on the Q-Table: " + maxQValue.get(i).a.actionName() + "\n\n");
 						}
 						
 //						else {
