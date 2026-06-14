@@ -49,7 +49,14 @@ public class VerifyLearningCommand implements Reporter{
 		sb.append("QLEARNING VERIFIER\n");
 		sb.append("File location: " + src + "\n\n");
 		if(map.size() != qtable.size()) {
-			throw new ExtensionException("The Q-Tables are not matching in size!\nSize of Q-Table: " + qtable.size() +"\nSize of CSV Q-Table: " + map.size() + "\nUse the command get-learning-details to see the full list of available states");
+			if(qtable.size() == 0) {
+				throw new ExtensionException("The model was not yet initialized!");
+
+			}
+			else {
+				throw new ExtensionException("The Policy tables are not matching in size!\nUse the command get-learning-details to see the full list of available states");
+
+			}
 		}
 		sb.append(verifyStates(qtable, map));
 		
@@ -78,7 +85,7 @@ public class VerifyLearningCommand implements Reporter{
 					
 					wasFound = true;
 					List<QValue> maxQValue 	= findMaxQValue(qtable.get(elemento));
-					String[] maxValues		= map.get(elemento_chave).split("-");
+					String[] maxValues		= map.get(elemento_chave).split("-/");
 					
 					
 					for (int i = 0; i < maxValues.length; i++) {
@@ -87,7 +94,7 @@ public class VerifyLearningCommand implements Reporter{
 					    // 2. Limpamos a string removendo a sintaxe e os espaços extras
 					    String cleanAction = rawAction.replace("(anonymous command: [", "").replace("])", "").trim();
 						
-						if(!map.get(elemento_chave).contains(cleanAction) && !map.get(elemento_chave).contains("any")) {
+						if(!map.get(elemento_chave).contains(cleanAction) && !map.get(elemento_chave).contains("!any")) {
 							
 							isEqual = false;
 							sb.append("Different Action Found!\n");
@@ -103,7 +110,7 @@ public class VerifyLearningCommand implements Reporter{
 					}
 				}
 				if(!itr_chave.hasNext() && !wasFound) {
-					throw new ExtensionException("State "+ cord_x + " " + cord_y + " was not found on the CSV table\nUse the command get-learning-details to see the full list of available states");
+					throw new ExtensionException("State "+ (int)cord_x + " " + (int)cord_y + " was not found on the desired policy table\nUse the command get-learning-details to see the full list of available states");
 				}
 			}
 			itr_chave = chaves.iterator();
