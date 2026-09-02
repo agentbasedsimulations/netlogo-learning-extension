@@ -20,7 +20,6 @@ import org.nlogo.core.SyntaxJ;
 
 import burlap.behavior.valuefunction.QValue;
 import burlap.mdp.core.state.State;
-import burlap.statehashing.HashableState;
 import main.java.burlap.QLearningAlgorithm;
 import main.java.model.AgentLearning;
 import main.java.model.Session;
@@ -46,6 +45,7 @@ public class VerifyLearningCommand implements Reporter{
 		// tabelas q
 		Map<State, List<QValue>> qtable = learning.getState();
 		Map<List<Integer>, String> map 	= readFile(src);
+		
 		sb.append("QLEARNING VERIFIER\n");
 		sb.append("File location: " + src + "\n\n");
 		if(map.size() != qtable.size()) {
@@ -59,8 +59,8 @@ public class VerifyLearningCommand implements Reporter{
 			}
 		}
 		sb.append(verifyStates(qtable, map));
-		
 		return sb.toString();
+		
 	}
 	
 	private StringBuilder verifyStates(Map<State, List<QValue>> qtable, Map<List<Integer>, String> map) throws ExtensionException {
@@ -89,13 +89,12 @@ public class VerifyLearningCommand implements Reporter{
 					// nova implementação
 					String expectedString = map.get(elemento_chave);
 
-					if (!expectedString.contains("!any")) {
+					if (!expectedString.contains("*")) {
 
 					    // lista com as acoes do csv
 					    List<String> expectedActions = new ArrayList<>();
-					    // Usei o split("-") baseado no seu código, adicionei replace("/", "") caso seu CSV tenha " -/ "
-					    for (String acao : expectedString.split("-")) {
-					        expectedActions.add(acao.replace("/", "").trim());
+					    for (String acao : expectedString.split(" -/ ")) {
+					        expectedActions.add(acao.trim());
 					    }
 
 					    // lista com as acoes gerada pela extensão
@@ -184,7 +183,14 @@ public class VerifyLearningCommand implements Reporter{
 		    String line 				= br.readLine();
 		    while ((line = br.readLine()) != null) {
 		    	String[] values 		= line.split(COMMA_DELIMITER);
-		    	map.put(getStates(values[0]), values[1]);
+		    	String actions = "";
+		    	for (int i = 1; i<values.length; i++) {
+		    		if(!actions.isBlank() || !actions.isEmpty()) {
+		    			actions += " -/ ";
+		    		}
+		    		actions += values[i];
+		    	}
+		    	map.put(getStates(values[0]), actions );
 		    }
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
