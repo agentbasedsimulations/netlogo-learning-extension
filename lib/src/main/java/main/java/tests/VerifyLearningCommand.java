@@ -54,10 +54,12 @@ public class VerifyLearningCommand implements Reporter{
 
 			}
 			else {
-				throw new ExtensionException("The Policy tables are not matching in size!\nUse the command get-learning-details to see the full list of available states");
+				throw new ExtensionException("The Policy tables are not matching in size!\nUse the command get-learning-details to see the full list of available states\n" + 
+						"Tamanho da política: " + qtable.size() + "\n" + "Tamanho da tabela: " + map.size());
 
 			}
 		}
+		sb.append("Tamanho da política: " + qtable.size() + "\n" + "Tamanho da tabela: " + map.size() + "\n\n");
 		sb.append(verifyStates(qtable, map));
 		return sb.toString();
 		
@@ -76,10 +78,14 @@ public class VerifyLearningCommand implements Reporter{
 			State elemento 		= itr.next();
 			boolean wasFound 	= false;
 			
+			sb.append(elemento.variableKeys().toString());
+			String nome_var1 = elemento.variableKeys().get(0).toString();
+			String nome_var2 = elemento.variableKeys().get(1).toString();
+			
 			while(itr_chave.hasNext()) {
 				List<Integer> elemento_chave 	= itr_chave.next();
-				double cord_x 					= (double) elemento.get("XCOR");
-				double cord_y 					= (double) elemento.get("YCOR");;
+				double cord_x 					= (double) elemento.get(nome_var1);
+				double cord_y 					= (double) elemento.get(nome_var2);;
 				
 				if(Double.compare(cord_x, elemento_chave.get(0)) == 0 && Double.compare(cord_y, elemento_chave.get(1)) == 0) {
 					
