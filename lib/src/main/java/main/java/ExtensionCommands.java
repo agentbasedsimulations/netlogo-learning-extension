@@ -54,7 +54,6 @@ public class ExtensionCommands extends DefaultClassManager {
         primitiveManager.addPrimitive("get-learning-details", new GetQTableCommand());
         
         // COMANDOS TESTS
-        primitiveManager.addPrimitive("tests", new FirstTezts());
         primitiveManager.addPrimitive("verify-learning", new VerifyLearningCommand());
     }
 }
