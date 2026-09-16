@@ -76,19 +76,24 @@ public class AgentLearning {
     	this.episode += 1;
     }
     
-    public Map<String, Double> getState(Context context) throws AgentException {
-        Map<String, Double> state = new HashMap<String, Double>();
+    public Map<String, Object> getState(Context context) throws AgentException {
+        Map<String, Object> state = new HashMap<String, Object>();
 
-        for(String v : stateDef.getVars()) {	
+        for(String v : stateDef.getVars()) {
             Turtle turtle = ((World) agent.world()).getTurtle(agent.id());
-            
-            if(turtle.getVariable(v) != null) {
-                state.put(v, (Double) turtle.getVariable(v));
+            Object varValue = turtle.getVariable(v);
+
+            if(varValue != null) {
+                if (varValue instanceof Boolean) {
+                    varValue = ((Boolean) varValue) ? 1.0 : 0.0;
+                }
+                
+                state.put(v, varValue);
             }
         }
 
         return state;
-    }           
+    }         
 
 	public void resetEpisode(Context context, Argument[] args) {
 		 AgentLearning agent =  Session.getInstance().getAgent(context.getAgent());

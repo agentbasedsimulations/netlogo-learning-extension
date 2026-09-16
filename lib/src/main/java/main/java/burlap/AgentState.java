@@ -24,7 +24,7 @@ import main.java.model.Session;
 public class AgentState implements MutableState {
 
 	private Context context;
-	private Map<String, Double> state;
+	private Map<String, Object> state;
 
 	public AgentState(Context context) throws AgentException {
 		this.context = context;

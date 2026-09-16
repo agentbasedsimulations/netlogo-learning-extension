@@ -50,7 +50,7 @@ public class ExtensionCommands extends DefaultClassManager {
         primitiveManager.addPrimitive("learning", new LearningCommand()); // TODO debug=true
         primitiveManager.addPrimitive("decay-epsilon", new DecayEpsilonCommand());
         primitiveManager.addPrimitive("get-episode", new GetEpisodeCommand());
-        //primitiveManager.addPrimitive("get-qtable", new GetQTableCommand()); // TODO
+        primitiveManager.addPrimitive("get-qtable", new GetQTableCommand()); // TODO
         primitiveManager.addPrimitive("get-learning-details", new GetQTableCommand());
         
         // COMANDOS TESTS
