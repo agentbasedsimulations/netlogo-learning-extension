@@ -4,6 +4,7 @@ import org.nlogo.api.DefaultClassManager;
 import org.nlogo.api.PrimitiveManager;
 
 import main.java.exportfile.ExportFileCommand;
+import main.java.importfile.ImportFileCommand;
 import main.java.primitives.go.DecayEpsilonCommand;
 import main.java.primitives.go.GetEpisodeCommand;
 import main.java.primitives.go.GetQTableCommand;
@@ -60,5 +61,6 @@ public class ExtensionCommands extends DefaultClassManager {
         
         // COMANDOS DE EXPORTAÇÃO/IMPORTAÇÃO
         primitiveManager.addPrimitive("export-file", new ExportFileCommand());
+        primitiveManager.addPrimitive("import-file", new ImportFileCommand());
     }
 }

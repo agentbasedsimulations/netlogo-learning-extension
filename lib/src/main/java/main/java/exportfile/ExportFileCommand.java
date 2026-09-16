@@ -23,7 +23,7 @@ public class ExportFileCommand implements Command {
 
     @Override
     public Syntax getSyntax() {
-        // Expects one string argument: the destination file path/name
+        // Recebe o argumento chamando a classe "C:file\file"
         return SyntaxJ.commandSyntax(new int[] { Syntax.StringType() });
     }
 
@@ -31,25 +31,28 @@ public class ExportFileCommand implements Command {
     public void perform(Argument[] args, Context context) throws ExtensionException, LogoException {
         String filename = args[0].getString();
         
-        // Retrieve the QLearningAlgorithm instance
+        // Recupera o QLearningAlgorithm
         QLearningAlgorithm learning = QLearningAlgorithm.getInstance(args, context);
         
+        //Cria um mapa com os Estados e Qvalues
         Map<State, List<QValue>> qtable = learning.getState();
         
+        // Verifica se o modelo foi rodado e a Qtable recebeu valores
         if (qtable == null || qtable.isEmpty()) {
             throw new ExtensionException("The model was not yet initialized or the Q-table is empty!");
         }
 
+        // Testa criar uma pasta com o nome do arquivo
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
             
-            // Dynamically create an header for the file
+            // Cria um cabeçalho para o arquivo
             writer.println("State" + DELIMITER + "Action" + DELIMITER + "MaxQValue");
 
-            // Iterate through states
+            // Passa pelos estados do mapa
             for (Map.Entry<State, List<QValue>> entry : qtable.entrySet()) {
                 State state = entry.getKey();
                 
-                // Dynamically construct the state string
+                // De acordo com o número de estados cria os estados com valores
                 StringBuilder stateStringBuilder = new StringBuilder();
                 List<Object> keys = state.variableKeys();
 
@@ -62,11 +65,14 @@ public class ExportFileCommand implements Command {
                         stateStringBuilder.append("-");
                     }
                 }
+                // Cria de fato uma string com os estados e valores
                 String stateString = stateStringBuilder.toString();
-
+                
+                // Acessa os dados dos valores
                 List<QValue> qValues = entry.getValue();
                 QValue bestAction = null;
 
+                // Salva o melhor valor(ação)
                 for (QValue qValue : qValues) {
                     // Keep the best value
                     if (bestAction == null || qValue.q > bestAction.q) {
@@ -74,15 +80,16 @@ public class ExportFileCommand implements Command {
                     }
                 }
 
-                // Print the best value found in each state
+                // Adiciona os valores com a string da ação
                 if (bestAction != null) {
                     String cleanAction = bestAction.a.actionName()
                             .replace("(anonymous command: [", "")
                             .replace("])", "")
                             .trim();
-                    
+                    // Arredonda o valor para duas casas decimais
                     double maxQ = Math.round(bestAction.q * 100.0) / 100.0;
 
+                    // Escreve no arquivo os dados encontrados
                     writer.println(stateString + DELIMITER + cleanAction + DELIMITER + maxQ);
                 }
             }
