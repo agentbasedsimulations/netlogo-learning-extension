@@ -54,12 +54,11 @@ public class VerifyLearningCommand implements Reporter {
 
 			} else {
 				throw new ExtensionException(
-						"The Policy tables are not matching in size!\nUse the command get-learning-details to see the full list of available states\n"
-								+ "Tamanho da política: " + qtable.size() + "\n" + "Tamanho da tabela: " + map.size());
+					"The Policy tables are not matching in size!\nUse the command get-learning-details to see the full list "
+					+ "of available states\nTamanho da política: " + qtable.size() + "\n" + "Tamanho da tabela: " + map.size());
 
 			}
 		}
-		sb.append("Tamanho da política: " + qtable.size() + "\n" + "Tamanho da tabela: " + map.size() + "\n\n");
 		sb.append(verifyStates(qtable, map));
 		return sb.toString();
 
@@ -75,14 +74,10 @@ public class VerifyLearningCommand implements Reporter {
 		Iterator<List<Integer>> itr_chave 	= chaves.iterator();
 		List<Object> stateVariables 		= getStateVariables(estado);
 		
-		sb.append(getStateVariables(estado));
 		while(itr.hasNext()) { 
 		  State elemento 	= itr.next(); 
 		  boolean wasFound 	= false;
-	  
-		  // vou criar uma função que seja responsável por fazer a verificação dos estados 
-		  // essa função deve operar de forma modular, onde pode operar com qualquer quantidade de estados
-		  
+	  		  
 		  while(itr_chave.hasNext() && !wasFound) {
 			  List<Integer> elemento_chave = itr_chave.next();
 			
@@ -95,67 +90,72 @@ public class VerifyLearningCommand implements Reporter {
 			  // é comparado as variaveis e caso seja encontrado alguma divergência
 			  // é informado que os estados não são iguais
 			  for(int i = 0; i<stateVariables.size(); i++) {
-				  double var = (double) elemento.get(stateVariables.get(i).toString()); 
+				  double var = (double) elemento.get(stateVariables.get(i).toString());
+				  
 				  if(Double.compare(var, elemento_chave.get(i)) != 0) {
 					  isStatesEqual = false;
 					  break;
 				  }
 			  }
-			  sb.append(isStatesEqual + "\n");
-				  
+			  if(!isStatesEqual) {
+				  sb.append("num entrou :C\n");
+			  }
 			  if(isStatesEqual) {
-		  
+				  sb.append("entrou:D\n");
 				  wasFound = true; 
-//				  List<QValue> maxQValue = findMaxQValue(qtable.get(elemento));
-//		  
-//		  // nova implementação 
-//				  String expectedString = map.get(elemento_chave);
-//		  
-//				  if (!expectedString.contains("")) {
-//		  
-//					  // lista com as acoes do csv 
-//					  List<String> expectedActions = new ArrayList<>(); 
-//					  for (String acao : expectedString.split(" -/ ")) {
-//						  expectedActions.add(acao.trim()); 
-//					  }
-//					  
-//				  //lista com as acoes gerada pela extensão 
-//					  List<String> foundActions = new ArrayList<>();
-//					  
-//					  for (int i = 0; i < expectedActions.size(); i++) { 
-//						  String cleanAction = maxQValue.get(i).a.actionName() 
-//								  .replace("(anonymous command: [", "")
-//								  .replace("])", "") .trim(); 
-//						  foundActions.add(cleanAction); 
-//					  }
-//					  
-//					  // remove as que foram achadas na qtable 
-//					  List<String> missingFromQTable = new ArrayList<>(expectedActions); 
-//					  missingFromQTable.removeAll(foundActions);
-//		  
-//					  // remove as que eram esperadas (Sobram as ERRADAS que a Q-Table inventou)
-//					  List<String> wrongActionsFound = new ArrayList<>(foundActions);
-//					  wrongActionsFound.removeAll(expectedActions);
-//		  
-//					  if (!missingFromQTable.isEmpty() || !wrongActionsFound.isEmpty()) { 
-//						  isEqual = false; 
-//						  sb.append("Different Action Found!\n");
-//						  sb.append("State: ").append(elemento_chave).append("\n");
-//		  
-//						  // imprime o que faltou achar 
-//						  if (!missingFromQTable.isEmpty()) {
-//							  sb.append("Expected action missing: ").append(String.join(", ",
-//									  missingFromQTable)).append("\n"); 
-//							  }
-//		  
-//						  // imprime o que achou errado 
-//						  if (!wrongActionsFound.isEmpty()) {
-//							  sb.append("Action found: ").append(String.join(", ",
-//									  wrongActionsFound)).append("\n"); 
-//							  } 
-//						  sb.append("\n"); 
-//					  } 
-//				  }
+				  List<QValue> maxQValue = findMaxQValue(qtable.get(elemento));
+				  sb.append(maxQValue);
+				  
+				  // nova implementação 
+				  String expectedString = map.get(elemento_chave);
+				  sb.append(expectedString);
+		  
+				  if (!expectedString.contains("")) {
+		  
+					  // lista com as acoes do csv 
+					  List<String> expectedActions = new ArrayList<>(); 
+					  for (String acao : expectedString.split(" -/ ")) {
+						  expectedActions.add(acao.trim()); 
+					  }
+					  
+				  //lista com as acoes gerada pela extensão 
+					  List<String> foundActions = new ArrayList<>();
+					  
+					  for (int i = 0; i < expectedActions.size(); i++) { 
+						  String cleanAction = maxQValue.get(i).a.actionName() 
+								  .replace("(anonymous command: [", "")
+								  .replace("])", "") .trim();
+						  
+						  foundActions.add(cleanAction); 
+					  }
+					  
+					  // remove as que foram achadas na qtable 
+					  List<String> missingFromQTable = new ArrayList<>(expectedActions); 
+					  missingFromQTable.removeAll(foundActions);
+		  
+					  // remove as que eram esperadas (Sobram as ERRADAS que a Q-Table inventou)
+					  List<String> wrongActionsFound = new ArrayList<>(foundActions);
+					  wrongActionsFound.removeAll(expectedActions);
+		  
+					  if (!missingFromQTable.isEmpty() || !wrongActionsFound.isEmpty()) { 
+						  isEqual = false; 
+						  sb.append("Different Action Found!\n");
+						  sb.append("State: ").append(elemento_chave).append("\n");
+		  
+						  // imprime o que faltou achar 
+						  if (!missingFromQTable.isEmpty()) {
+							  sb.append("Expected action missing: ").append(String.join(", ",
+									  missingFromQTable)).append("\n"); 
+							  }
+		  
+						  // imprime o que achou errado 
+						  if (!wrongActionsFound.isEmpty()) {
+							  sb.append("Action found: ").append(String.join(", ",
+									  wrongActionsFound)).append("\n"); 
+							  } 
+						  sb.append("\n"); 
+					  } 
+				  }
 			  } 
 		  	  if(!itr_chave.hasNext() && !wasFound) { 
 		  		  throw new ExtensionException("State "+ elemento_chave + " "
@@ -166,11 +166,12 @@ public class VerifyLearningCommand implements Reporter {
 		}
 	  sb.append("\nActions verified, the result is...\n"); 
 	  if(isEqual) {
-  		sb.append("Both tables are equal!"); } else {
+  		sb.append("Both tables are equal!"); } 
+	  else {
 		sb.append("Different values were found on the Q-Table!"); 
   	  }
 	 
-	  return sb.append("\n" + estado);
+	  return sb;
 	}
 	
 	
@@ -179,11 +180,6 @@ public class VerifyLearningCommand implements Reporter {
 		// dessa forma ele retorna o set como list das variaveis de estado, o que me permite manipular com mais facilidade
 		State stateVariables = (State) states.toArray()[0];
 		return stateVariables.variableKeys();
-	}
-	
-	private boolean isStateFound(Set<State> state) {
-
-		return true;
 	}
 
 	private List<QValue> findMaxQValue(List<QValue> state) {
