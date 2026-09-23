@@ -91,33 +91,25 @@ public class VerifyLearningCommand implements Reporter {
 			  // é informado que os estados não são iguais
 			  for(int i = 0; i<stateVariables.size(); i++) {
 				  double var = (double) elemento.get(stateVariables.get(i).toString());
-				  
 				  if(Double.compare(var, elemento_chave.get(i)) != 0) {
 					  isStatesEqual = false;
 					  break;
 				  }
 			  }
-			  if(!isStatesEqual) {
-				  sb.append("num entrou :C\n");
-			  }
 			  if(isStatesEqual) {
-				  sb.append("entrou:D\n");
 				  wasFound = true; 
 				  List<QValue> maxQValue = findMaxQValue(qtable.get(elemento));
-				  sb.append(maxQValue);
 				  
 				  // nova implementação 
 				  String expectedString = map.get(elemento_chave);
-				  sb.append(expectedString);
-		  
-				  if (!expectedString.contains("")) {
-		  
+				  if (!expectedString.contains("*")) {
+					  
 					  // lista com as acoes do csv 
 					  List<String> expectedActions = new ArrayList<>(); 
 					  for (String acao : expectedString.split(" -/ ")) {
 						  expectedActions.add(acao.trim()); 
 					  }
-					  
+					  					  
 				  //lista com as acoes gerada pela extensão 
 					  List<String> foundActions = new ArrayList<>();
 					  
@@ -128,15 +120,15 @@ public class VerifyLearningCommand implements Reporter {
 						  
 						  foundActions.add(cleanAction); 
 					  }
-					  
+					  					  
 					  // remove as que foram achadas na qtable 
 					  List<String> missingFromQTable = new ArrayList<>(expectedActions); 
 					  missingFromQTable.removeAll(foundActions);
-		  
+		  					  
 					  // remove as que eram esperadas (Sobram as ERRADAS que a Q-Table inventou)
 					  List<String> wrongActionsFound = new ArrayList<>(foundActions);
 					  wrongActionsFound.removeAll(expectedActions);
-		  
+					  		  
 					  if (!missingFromQTable.isEmpty() || !wrongActionsFound.isEmpty()) { 
 						  isEqual = false; 
 						  sb.append("Different Action Found!\n");
