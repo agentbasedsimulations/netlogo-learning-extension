@@ -9,6 +9,7 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 /* ********************************
@@ -33,6 +34,9 @@ repositories {
 }
  
 dependencies {
+	// Source: https://mvnrepository.com/artifact/org.yaml/snakeyaml
+	implementation("org.yaml:snakeyaml:2.7")
+
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'
  
