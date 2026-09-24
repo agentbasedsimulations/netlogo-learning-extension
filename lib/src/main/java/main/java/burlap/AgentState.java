@@ -1,5 +1,6 @@
 package main.java.burlap;
 
+// import java.io.Serializable; // Importar Serializable, necessário para serialização
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,12 +22,17 @@ import main.java.model.Session;
  * @author Eloisa Bazzanella
  * @since april, 2022
  */
-public class AgentState implements MutableState {
+public class AgentState implements MutableState{//, Serializable { // Adicionar Serializable
 
 	private Context context;
 	private Map<String, Object> state;
 
-	public AgentState(Context context) throws AgentException {
+	// Adicionar um construtor vazio
+//	public AgentState() {
+//		this.state = new HashMap<>();
+//	}
+	
+	public AgentState(Context context) throws AgentException { 
 		this.context = context;
 		this.state = new HashMap<>();
 
@@ -35,8 +41,25 @@ public class AgentState implements MutableState {
 		this.state = agent.getState(context);
 	}
 
+	// Criar getContext(), setContext(), getState() e setState()
+//	public Context getContext() {
+//		return context;
+//	}
+//
+//	public void setContext(Context context) {
+//		this.context = context;
+//	}
+//
+//	public Map<String, Object> getState() {
+//		return state;
+//	}
+//
+//	public void setState(Map<String, Object> state) {
+//		this.state = state;
+//	}
+	
 	@Override
-	public MutableState set(Object variableKey, Object value) {
+	public MutableState set(Object variableKey, Object value) { // não fornece acesso direto aos atributos da classe (context e state)
 		for (String s : state.keySet()) {
 			if (variableKey.equals(s)) {
 				state.replace(s, (Double) value);
@@ -47,7 +70,7 @@ public class AgentState implements MutableState {
 	}
 
 	@Override
-	public Object get(Object variableKey) {
+	public Object get(Object variableKey) { // não fornece acesso direto aos atributos da classe (context e state)
 		return state.get(variableKey);
 	}
 

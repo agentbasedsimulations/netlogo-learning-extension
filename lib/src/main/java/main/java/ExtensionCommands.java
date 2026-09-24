@@ -60,7 +60,7 @@ public class ExtensionCommands extends DefaultClassManager {
         primitiveManager.addPrimitive("verify-learning", new VerifyLearningCommand());
         
         // COMANDOS DE EXPORTAÇÃO/IMPORTAÇÃO
-        primitiveManager.addPrimitive("export-file", new ExportFileCommand(null));
+        primitiveManager.addPrimitive("export-file", new ExportFileCommand());
         primitiveManager.addPrimitive("import-file", new ImportFileCommand());
     }
 }

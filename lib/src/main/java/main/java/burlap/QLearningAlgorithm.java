@@ -47,6 +47,7 @@ public class QLearningAlgorithm implements DomainGenerator {
         this.args = args;
         this.context = context;
         this.epsilon = null;
+
     }
     
     public static void setInstanceNull() {
@@ -120,7 +121,14 @@ public class QLearningAlgorithm implements DomainGenerator {
         agent.setEpisode();
         agent.resetEpisode(context,args);
         env.resetEnvironment(); 
+        
     }
+    
+    public void writeQTable(String path) {
+    	System.out.println("QLearningAlgorithm > "+path);
+    	agentLearning.writeQTable(path);	
+    }
+    
     
     @Override
     public Domain generateDomain() {

@@ -19,6 +19,7 @@ plugins {
 def BURLAP_LIB_NAME = 'burlap'
 def BURLAP_LIB_VERSION = '3.0.1'
 def COMMONSLANG_LIB_NAME = 'commons-lang3' 
+def YAML_LIB_NAME = 'snakeyaml'
 def EXTENSION_NAME = 'learningextension'
 
 repositories {
@@ -64,10 +65,11 @@ jar {
     archiveBaseName = EXTENSION_NAME
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from {
-    	configurations.runtimeClasspath.findAll { file ->
-    			//println(file)
+    	configurations.runtimeClasspath.findAll { file ->    
+    			//println(file)			
     			file.name == BURLAP_LIB_NAME+'-'+BURLAP_LIB_VERSION+'.jar' ||
-    			file.name.startsWith(COMMONSLANG_LIB_NAME)
+    			file.name.startsWith(COMMONSLANG_LIB_NAME) ||
+    			file.name.startsWith(YAML_LIB_NAME)
     		}.collect{file ->
     			println(file)  
 	         	zipTree(file) 
