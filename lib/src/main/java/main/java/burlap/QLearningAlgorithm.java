@@ -124,9 +124,23 @@ public class QLearningAlgorithm implements DomainGenerator {
         
     }
     
+    //FUNÇÃO PARA EXPORTAR E IMPORTAR APRENDIZADO
+    // Autor: Berardo Almeida, Data 25/09/2026
     public void writeQTable(String path) {
-    	System.out.println("QLearningAlgorithm > "+path);
-    	agentLearning.writeQTable(path);	
+    		agentLearning.writeQTable(path); 
+    }
+    
+    public void loadQTable(String path) {
+    	try {
+            if (this.agentLearning == null) {
+                this.setup(); 
+            }
+            
+            this.agentLearning.loadQTable(path);
+            
+        } catch (AgentException e) {
+            System.err.println("Erro ao inicializar o agente antes de carregar a Q-Table: " + e.getMessage());
+        } 
     }
     
     
