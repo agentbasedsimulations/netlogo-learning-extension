@@ -24,6 +24,7 @@ import burlap.statehashing.HashableStateFactory;
 import burlap.statehashing.simple.SimpleHashableStateFactory;
 import main.java.burlap.adapters.QLearningAdapter;
 import main.java.burlap.adapters.SarsaLamAdapter;
+import main.java.exportfile.ExportFileCommand;
 import main.java.model.AgentLearning;
 import main.java.model.Session;
 import main.java.primitives.go.DecayEpsilonCommand;
@@ -126,33 +127,32 @@ public class QLearningAlgorithm implements DomainGenerator {
     
     //FUNÇÃO PARA EXPORTAR E IMPORTAR APRENDIZADO
     // Autor: Berardo Almeida, Data 25/09/2026
-    public void writeQTable(String path) {
-    	try {
-            if (this.agentLearning == null) {
-                this.setup(); 
-            }
-            
-            this.agentLearning.writeQTable(path);
-            
-        } catch (AgentException e) {
-            System.err.println("Erro ao inicializar o agente antes de exportat a Q-Table: " + e.getMessage());
-        } 
-    }
+//    public void writeQTable(String path) {
+//    	try {
+//            if (this.agentLearning == null) {
+//                this.setup(); 
+//            }
+//            
+//            this.agentLearning.writeQTable(path);
+//            
+//        } catch (AgentException e) {
+//            System.err.println("Erro ao inicializar o agente antes de exportat a Q-Table: " + e.getMessage());
+//        } 
+//    }
     
-   public void loadQTable(String path) {
-    	try {
-           if (this.agentLearning == null) {
-               this.setup(); 
-            }
-            
-            this.agentLearning.loadQTable(path);
-            
-        } catch (AgentException e) {
-            System.err.println("Erro ao inicializar o agente antes de carregar a Q-Table: " + e.getMessage());
-        } 
-    }
-    
-    
+//   public void loadQTable(String path) {
+//    	try {
+//           if (this.agentLearning == null) {
+//               this.setup(); 
+//            }
+//            
+//            this.agentLearning.loadQTable(path);
+//            
+//        } catch (AgentException e) {
+//            System.err.println("Erro ao inicializar o agente antes de carregar a Q-Table: " + e.getMessage());
+//        } 
+//    }
+   
     @Override
     public Domain generateDomain() {
         throw new UnsupportedOperationException("Not supported yet."); 
