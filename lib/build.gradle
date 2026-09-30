@@ -36,7 +36,7 @@ repositories {
  
 dependencies {
 	// Source: https://mvnrepository.com/artifact/org.yaml/snakeyaml
-	implementation("org.yaml:snakeyaml:2.7")
+	implementation("org.yaml:snakeyaml:1.21")
 
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13.2'

@@ -139,10 +139,10 @@ public class QLearningAlgorithm implements DomainGenerator {
         } 
     }
     
-    public void loadQTable(String path) {
+   public void loadQTable(String path) {
     	try {
-            if (this.agentLearning == null) {
-                this.setup(); 
+           if (this.agentLearning == null) {
+               this.setup(); 
             }
             
             this.agentLearning.loadQTable(path);
