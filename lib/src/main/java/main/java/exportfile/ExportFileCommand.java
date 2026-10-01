@@ -20,8 +20,6 @@ import main.java.burlap.QLearningAlgorithm;
 
 public class ExportFileCommand implements Command {
 
-    private static final String DELIMITER = ";";
-
     @Override
     public Syntax getSyntax() {
         return SyntaxJ.commandSyntax(new int[] { Syntax.StringType() });
@@ -32,7 +30,6 @@ public class ExportFileCommand implements Command {
         String filename = args[0].getString();
         
         QLearningAlgorithm learning = QLearningAlgorithm.getInstance(args, context);
-        
         Map<State, List<QValue>> qtable = learning.getState();
         
         if (qtable == null || qtable.isEmpty()) {
@@ -40,45 +37,41 @@ public class ExportFileCommand implements Command {
         }
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
-            
-            writer.println("State" + DELIMITER + "Action" + DELIMITER + "MaxQValue");
-
+        	// Itera cada estado
             for (Map.Entry<State, List<QValue>> entry : qtable.entrySet()) {
                 State state = entry.getKey();
+                List<QValue> qValues = entry.getValue();
                 
-                StringBuilder stateStringBuilder = new StringBuilder();
+                StringBuilder lineBuilder = new StringBuilder();
+                // Formata o Estado: {CHAVE=VALOR, CHAVE=VALOR, ...}
+                lineBuilder.append("state: {");
                 List<Object> keys = state.variableKeys();
-
+                
                 for (int i = 0; i < keys.size(); i++) {
                     Object key = keys.get(i);
-                    int value = (int) ((double) state.get(key));
-                    stateStringBuilder.append(value);
+                    // Pega o valor do estado
+                    double value = (double) state.get(key);
+                    
+                    lineBuilder.append(key.toString()).append("=").append(value);
                     
                     if (i < keys.size() - 1) {
-                        stateStringBuilder.append("-");
+                        lineBuilder.append(", ");
                     }
                 }
-                String stateString = stateStringBuilder.toString();
-
-                List<QValue> qValues = entry.getValue();
-                QValue bestAction = null;
-
-                for (QValue qValue : qValues) {
-                    if (bestAction == null || qValue.q > bestAction.q) {
-                        bestAction = qValue;
-                    }
-                }
-
-                if (bestAction != null) {
-                    String cleanAction = bestAction.a.actionName()
-                            .replace("(anonymous command: [", "")
-                            .replace("])", "")
-                            .trim();
+                lineBuilder.append("}; actions values: ");
+                // Formata as Ações: (anonymous command: [ acao ])=valor
+                for (int i = 0; i < qValues.size(); i++) {
+                    QValue qValue = qValues.get(i);
+                    // Mantem o nome da ação
+                    String rawActionName = qValue.a.actionName();
+                    double q = qValue.q;
                     
-                    double maxQ = Math.round(bestAction.q * 100.0) / 100.0;
-
-                    writer.println(stateString + DELIMITER + cleanAction + DELIMITER + maxQ);
+                    lineBuilder.append(rawActionName).append("=").append(q);
+                    // Adiciona o ; no final
+                    lineBuilder.append("; ");
                 }
+                // escreve a linha no arquivo
+                writer.println(lineBuilder.toString().trim());
             }
         } catch (IOException e) {
             throw new ExtensionException("Error writing Q-Table to file: " + e.getMessage());

@@ -4,7 +4,7 @@ import org.nlogo.api.DefaultClassManager;
 import org.nlogo.api.PrimitiveManager;
 
 import main.java.exportfile.ExportFileCommand;
-//import main.java.importfile.ImportFileCommand;
+import main.java.importfile.ImportFileCommand;
 import main.java.primitives.go.DecayEpsilonCommand;
 import main.java.primitives.go.GetEpisodeCommand;
 import main.java.primitives.go.GetQTableCommand;
