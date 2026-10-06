@@ -99,6 +99,11 @@ public class QLearningAlgorithm implements DomainGenerator {
  // FUNCAO ADICIONADA, PARA ANALISE FUTURA 
     // Autor: Mateus Rissardi, Data: 11/05/2026
     public Map<State, List<QValue>> getState() {
+    	// Adicionado por Bernardo Almeida
+    	if (agentLearning == null) {
+            return null;
+        }
+    	
 		return agentLearning.getQTable();
     }
     
@@ -107,7 +112,6 @@ public class QLearningAlgorithm implements DomainGenerator {
     public QLearningAdapter getQLearningAdapter() {
 		return agentLearning;
     }
-    
     
     public void go(Argument[] args, Context context) throws ExtensionException {
         AgentLearning agent =  Session.getInstance().getAgent(context.getAgent());
